@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="message-box">
+    <h2>Chat Room: {{room}}</h2>
+    <div class="messages" id="message"s></div>
+    <div class="inputs">
+        <input type="text" rows="3" placeholder="Message" name="message" id="message"/>
+        <button type="Button" name="send" id="send-btn" onClick="sendMessage()">Send</button>
+    </div>
+</div>
+<script type="text/javascript">
+    var socketio = io(); // if this part is weird don't blame me I'm not a java dev
+
+    const messages = document.getElementById('messages')
+
+    const createMessage = (name, msg) => {
+        const content = `
+        <div class="text">
+            <span>
+                <strong>${name}</strong>: ${msg}
+            </span>
+            <span class="muted">
+                ${new Date().toLocaleString()}
+            </span>
+        </div>
+        `;
+
+        socketio.on("message", (data) => {
+            createMessage(data.name, data.message)
+        })
+
+        messages.innerHTML += content
+    }
+
+    const sendMessage = () => {
+        console.log("send");
+    };
+</script>
+{% endblock %}
