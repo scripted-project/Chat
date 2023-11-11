@@ -65,7 +65,7 @@ def message(data):
         return
     
     content = {
-        "name": session.get("name")
+        "name": session.get("name"),
         "message": data["data"]
     }
     send(content, to=room)
