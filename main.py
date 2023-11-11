@@ -74,7 +74,7 @@ def message(data):
     
 
 @socketio.on("connect")
-def connect(auth);
+def connect(auth):
     room = session.get("room")
     name = session.get("name")
     if not room or not name:
