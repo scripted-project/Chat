@@ -27,11 +27,11 @@
     border-width: 2px;
     border-style: solid;
     /*border-radius: 10px; This adds round corners*/
-    background-color: grey;
-    height: 80vh;
+    background-color: whitesmoke;
+    height: 90vh;
     display: flex;
     flex-direction: column;
-    width: 80vw;
+    width: 90vw;
     align-items: stretch;
 }
 

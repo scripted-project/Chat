@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="message-box">
+<div class="message-box" id="messsage-box">
     <h2>Chat Room: {{code}}</h2>
     <div class="messages" id="messages"></div>
     <div class="inputs">
@@ -18,7 +18,10 @@
         }
     }); 
 
-
+    var messagebox = document.getElementById("message-box");
+    const autoscroll = () => {
+        messagebox.scrollTop(messagebox.prop("scrollHeight"))
+    }
 
 
     var socketio = io(); // if this part is weird don't blame me I'm not a java dev
@@ -38,6 +41,7 @@
         `;
 
         messages.innerHTML += content
+        autoscroll()
     }
     
     socketio.on("message", (data) => {
@@ -55,6 +59,7 @@
 {% for msg in messages %}
 <script type="text/javascript">
     createMessage("{{msg.name}}", "{{msg.message}}", "{{msg.time}}")
+    autoscroll()
 </script>
 {% endfor %}
 {% endblock %}
