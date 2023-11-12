@@ -95,6 +95,7 @@ def disconnect():
         rooms[room]["members"] -= 1
         if rooms[room]["members"] <= 0:
             del rooms[room]
+            print(f"{rooms[room]} has been deleted.")
     
     send({"token": "[-] ", "name": name, "message": "has disconnected"}, to=room)
     print(f"[-] {name} has disconnected from {room}")
