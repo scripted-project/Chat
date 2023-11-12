@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, session, redirect, url_for
 from flask_socketio import join_room, leave_room, send, SocketIO
-import random
+import random, datetime
 from string import ascii_uppercase, ascii_lowercase
 
 app = Flask(__name__)
@@ -56,18 +56,19 @@ def room():
     return render_template("room.html", code=room, messages=rooms[room]["messages"])
 
 @socketio.on("message")
-def message(data):
+def message(data, time):
     room = session.get("room")
     if room not in rooms:
         return
     
     content = {
         "name": session.get("name"),
-        "message": data["data"]
+        "message": data["data"],
+        "time": time
     }
     send(content, to=room)
     rooms[room]["messages"].append(content)
-    print(f"[*] {session.get('name')}: {data['data']}")
+    print(f"[*] {session.get('name')}: {data['data']} ({time})")
     
 
 @socketio.on("connect")
@@ -95,7 +96,7 @@ def disconnect():
         rooms[room]["members"] -= 1
         if rooms[room]["members"] <= 0:
             del rooms[room]
-            print(f"{rooms[room]} has been deleted.")
+            # print(f"{rooms[room]} has been deleted.") This errors and I'm not sure why
     
     send({"token": "[-] ", "name": name, "message": "has disconnected"}, to=room)
     print(f"[-] {name} has disconnected from {room}")
