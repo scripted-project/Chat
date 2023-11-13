@@ -41,12 +41,11 @@
         `;
 
         messages.innerHTML += content
-
     }
     
     socketio.on("message", (data) => {
         createMessage(data.name, data.message, data.time);
-        
+        console.log(data.name, data.message, data.time);
     });
 
     const sendMessage = () => {
@@ -60,7 +59,6 @@
 {% for msg in messages %}
 <script type="text/javascript">
     createMessage("{{msg.name}}", "{{msg.message}}", "{{msg.time}}")
-    
 </script>
 {% endfor %}
 {% endblock %}
