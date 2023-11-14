@@ -41,7 +41,7 @@
     width: 100%;
 }
 
-.inputs {
+.inputs-room {
     padding: 10px;
     display: flex;
 }
@@ -66,4 +66,17 @@
 .muted {
     font-size: 10px;
     color: darkgray;
+}
+
+.login-box {
+    border-color: black;
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 10px; 
+    background-color: whitesmoke;
+    height: 40vh;
+    display: flex;
+    flex-direction: column;
+    width: 40vw;
+    align-items: center;
 }
