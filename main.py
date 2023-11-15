@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, session, redirect, url_for
 from flask_socketio import join_room, leave_room, send, SocketIO
 import random, datetime
-from string import ascii_uppercase, ascii_lowercase
+from string import ascii_uppercase
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "3789"
