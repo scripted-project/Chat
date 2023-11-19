@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, session, redirect, url_for
 from flask_socketio import join_room, leave_room, send, SocketIO
-import random, datetime
+import random, datetime, sqlite3
 from string import ascii_uppercase
 
 app = Flask(__name__)
@@ -9,6 +9,10 @@ socketio = SocketIO(app)
 
 rooms = {}
 
+connection = sqlite3.connect("data/server1")
+crsr = connection.cursor()
+# To use: sqlCommand = """command"""
+# crsr.execute(sqlCommand)
 def GenerateUniqueCode(Length):
     while True:
         code = ""
@@ -37,7 +41,16 @@ def home():
         room = code
         if create != False:
             room = GenerateUniqueCode(4)
-            rooms[room] = {"members": 0, "messages": []}
+            rooms[room] = {"members": 0, "messages": [], "rooms": []}
+            sqlCommand = f"""
+            CREATE TABLE {room} (
+                user varchar(255)
+                message varchar(60,000)
+                time varchar(255)
+                room varchar(255)
+            );
+            """ # Room should be the house code and house name needs to be added somewhere
+            crsr.execute(sqlCommand)
         elif code not in rooms:
             return render_template("home.html", error="Room does not exist.", code=code, name=name)
         
@@ -46,6 +59,9 @@ def home():
         return redirect(url_for("room"))
     
     return render_template("home.html")
+@app.route("/create")
+def create():
+    house-name = request.form.get("house-name")
 
 @app.route("/room")
 def room():
@@ -107,3 +123,5 @@ if __name__  == "__main__":
     socketio.run(app)
     #socketio.run(app, host="0.0.0.0", port=5000)
     #socketio.run(app, allow_unsafe_werkzeug=True)
+    
+connection.close()
