@@ -19,10 +19,7 @@ usersCrsr = usersConnection.cursor()
 
 numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
 
-def serverStart():
-    
-    usersCrsr.execute('''SELECT * FROM users''')
-    output = usersCrsr.fetchall()
+
 
 def GenerateUniqueCode(Length, type):
     if type == "ascii":
@@ -41,12 +38,28 @@ def GenerateUniqueCode(Length, type):
                 break
         
     return code
+
+def CreateHouse(name, owner):
+    houses[name] = {
+        "owner": owner,
+        "rooms": {}
+        
+    }
+    houses[name]["rooms"]["main"] = {"messages": []}
+
+def serverStart():
+    
+    usersCrsr.execute('''SELECT * FROM users''')
+    output = usersCrsr.fetchall()
+    CreateHouse("orgin", "Jewels")
+
 serverStart()
 @app.route("/", methods=["POST", "GET"])
 def home():
     if session["account"] in users:
         session["account"] = users["{username}"]
         session["houses"] = users["{username}"]["houses"]
+        session["room"] = houses["orgin"]["rooms"]["main"]
         
         return redirect(url_for("room"))
     if request.method == "POST":
@@ -65,6 +78,8 @@ def home():
                 if password == users["{username}"]["password"]:
                     session["account"] = users["{username}"]
                     session["houses"] = users["{username}"]["houses"]
+                    session["room"] = houses["orgin"]["main"]
+                    session["house"] = houses["orgin"]
                     return redirect(url_for("room"))
                 else:
                     return render_template("home.html", error="Incorrect password", password=password, username=username)
@@ -86,7 +101,8 @@ def home():
 
 @app.route("/room")
 def room():
-    pass
+    room = session.get("room")
+    return render_template("room.html", room=session.get("room"), house=session.get("house"), messages=houses[session.get("house")][session.get("room")]["messages"])
 
 
 if __name__  == "__main__":
