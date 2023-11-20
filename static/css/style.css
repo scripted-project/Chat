@@ -12,14 +12,8 @@
     gap: 10px;
 }
 
-.join {
-    display: flex;
+.home-btns {
     flex-direction: row;
-    width: 100%;
-}
-
-.create-btn {
-    width: 100%;
 }
 
 .message-box {

@@ -2,15 +2,14 @@
 {% block content %}
 <form method="post" class="buttons">
     <h3>Enter The Chat room</h3>
-    <div>
-        <label>Name:</label>
-        <input type="text" placeholder="Enter Username:" name="name" value="{{name}}"/>
+
+    <input type="text" placeholder="Enter Username:" name="username" value="{{username}}"/>
+    <input type="text" placeholder="Enter Password" name="password" value="{{password}}"/>
+    <div class="home-btns">
+        <button type="submit" name="login" class="login-btn">Login</button>
+        <button type="submit" name="sign-up">Sign Up</button>
     </div>
-    <div class="join">
-        <input type="text" placeholder="Room Code" name="code" value="{{code}}"/>
-        <button type="submit" name="join">Join a Room</button>
-    </div>
-    <button type="submit" name="create" class="create-btn">Create a Room</button>
+    
     {% if error %}
     <ul>
         <li>{{error}}</li>

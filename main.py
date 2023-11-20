@@ -9,8 +9,7 @@ socketio = SocketIO(app)
 
 rooms = {}
 
-connection = sqlite3.connect("data/server1")
-crsr = connection.cursor()
+
 # To use: sqlCommand = """command"""
 # crsr.execute(sqlCommand)
 def GenerateUniqueCode(Length):
@@ -59,9 +58,6 @@ def home():
         return redirect(url_for("room"))
     
     return render_template("home.html")
-@app.route("/create")
-def create():
-    house-name = request.form.get("house-name")
 
 @app.route("/room")
 def room():
