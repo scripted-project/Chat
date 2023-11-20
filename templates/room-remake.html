@@ -1,0 +1,32 @@
+{% extends 'base.html ' %}
+{% block content %}
+<div class="top-box">
+    <!-- Add logo -->
+    <label>{{house}}: {{room}}</label>
+</div>
+<div class="main">
+    <div class="rooms-list" id="rooms-list"></div>
+    <div class="message-box" id="message-box">
+        <div class="messages" id="messages"></div>
+        <div class="inputs">
+            <input type="text" rows="3" placeholder="Message" name="message" id="message"/>
+            <button type="button" name="send" id="send-btn" onClick="sendMessage()">Send</button>
+        </div>
+        
+    </div>
+    
+</div>
+<script>
+    const roomslist = document.getElementById('rooms-list')
+
+    const addRoom = (name) => {
+        const room = `
+        <div class="roomsListRoom">
+            <span>${name}</span>
+        </div>
+        `;
+        roomslist.innerHTML += room
+    }
+    
+</script>
+{% endblock %}

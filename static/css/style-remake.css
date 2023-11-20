@@ -1,0 +1,17 @@
+.content {
+    display: flex;
+    flex-direction: center;
+    justify-content: center;
+}
+
+.top-box {
+    flex-direction: row;
+}
+
+.main {
+    flex-direction: row;
+}
+
+.rooms-list {
+    flex-direction: column;
+}

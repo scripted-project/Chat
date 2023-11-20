@@ -44,6 +44,11 @@ def GenerateUniqueCode(Length, type):
 serverStart()
 @app.route("/", methods=["POST", "GET"])
 def home():
+    if session["account"] in users:
+        session["account"] = users["{username}"]
+        session["houses"] = users["{username}"]["houses"]
+        
+        return redirect(url_for("room"))
     if request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")
@@ -58,7 +63,9 @@ def home():
         if login != False:
             if username in users:
                 if password == users["{username}"]["password"]:
-                    pass
+                    session["account"] = users["{username}"]
+                    session["houses"] = users["{username}"]["houses"]
+                    return redirect(url_for("room"))
                 else:
                     return render_template("home.html", error="Incorrect password", password=password, username=username)
             else:
@@ -67,11 +74,19 @@ def home():
             # Use datetime
             users["{username}"] = {
                 "password": "{password}",
-                "ID": GenerateUniqueCode(6, "number"),
+                "id": GenerateUniqueCode(6, "number"),
                 "houses": ["orgin"],
                 "date-joined": "",
-                "last-online": ""
+                "last-online": "",
+                "roles":["user"],
+                "online": True
             }
+            
+    return redirect(url_for("room"))
+
+@app.route("/room")
+def room():
+    pass
 
 
 if __name__  == "__main__":
