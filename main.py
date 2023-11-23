@@ -49,7 +49,7 @@ def home():
                 room varchar(255)
             );
             """ # Room should be the house code and house name needs to be added somewhere
-            crsr.execute(sqlCommand)
+            
         elif code not in rooms:
             return render_template("home.html", error="Room does not exist.", code=code, name=name)
         

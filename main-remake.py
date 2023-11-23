@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, session, redirect, url_for
 from flask_socketio import join_room, leave_room, send, SocketIO
-import random, datetime, sqlite3
+import random, datetime, sqlite3, socket
 from string import ascii_uppercase
 
 app = Flask(__name__)
@@ -10,6 +10,7 @@ socketio = SocketIO(app)
 rooms = {}  # unused
 houses = {}
 users = {} 
+apiRoom = {"members": 0, "messages": []}
 
 housesConnection = sqlite3.connect("data/houses.db")
 housesCrsr = housesConnection.cursor()
@@ -19,7 +20,52 @@ usersCrsr = usersConnection.cursor()
 
 numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
 
-
+class API:
+    def get(target, amount, house, room):
+        if target == "msg" or "msgs":
+            data = house[house]["rooms"][room]["messages"]
+            number = 0
+            toSend = []
+            for msg in data:
+                if number == amount:
+                    break
+                else:
+                    toSend.append(msg)
+                    number += 1
+                    continue
+            return toSend
+        if target == "user" or "users":
+            data = users[target]
+            number = 0
+            toSend = []
+            for user in data:
+                if number == amount:
+                    break
+                else:
+                    toSend.append(user)
+                    number += 1
+                    continue
+            return toSend
+    def host():
+        host = "127.0.0.1"
+        port = 9000
+        server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        server.bind((host, port))
+        server.listen(0)
+        while True:
+            clientSocket, clientAddress = server.accept()
+            print(f"{clientAddress[0]}:{clientAddress[1]} has connected to the API")
+            while True:
+                request = clientSocket.recv(1024)
+                request = request.decode("utf-8")
+                
+                if request.lower() == "close":
+                    clientSocket.send("closed".encode("utf-8"))
+                    break
+                if request.lower() == "user" or "users":
+                    clientSocket.send("amount(msg)".encode("utf-8"))
+                print(f"Recived API Request:{request}")
+                
 
 def GenerateUniqueCode(Length, type):
     if type == "ascii":
@@ -42,8 +88,8 @@ def GenerateUniqueCode(Length, type):
 def CreateHouse(name, owner):
     houses[name] = {
         "owner": owner,
-        "rooms": {}
-        
+        "rooms": {},
+        "users": []
     }
     houses[name]["rooms"]["main"] = {"messages": []}
 
