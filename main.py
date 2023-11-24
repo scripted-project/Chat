@@ -57,6 +57,7 @@ def room():
 
 @socketio.on("message")
 def message(data, time):
+    print(f"[*] {session.get('name')}: {data['data']} ({time})")
     room = session.get("room")
     if room not in rooms:
         return
@@ -68,7 +69,7 @@ def message(data, time):
     }
     send(content, to=room)
     rooms[room]["messages"].append(content)
-    print(f"[*] {session.get('name')}: {data['data']} ({time})")
+    
     
 
 @socketio.on("connect")

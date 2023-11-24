@@ -54,6 +54,7 @@
         if (message.value == "") return;
         socketio.emit("message", {data: message.value}, "time");
         message.value = "";
+        console.log("Sent message")
     };
 </script>
 {% for msg in messages %}
