@@ -56,7 +56,9 @@ def room():
     return render_template("room.html", code=room, messages=rooms[room]["messages"])
 
 @socketio.on("message")
-def message(data, time):
+def message(data):
+    time = data.get("time")
+    messageContent = data.get("data")
     print(f"[*] {session.get('name')}: {data['data']} ({time})")
     room = session.get("room")
     if room not in rooms:
@@ -64,7 +66,7 @@ def message(data, time):
     
     content = {
         "name": session.get("name"),
-        "message": data["data"],
+        "message": messageContent,
         "time": time
     }
     send(content, to=room)

@@ -52,7 +52,7 @@
         const message = document.getElementById("message");
         const time = new Date().toLocaleString();
         if (message.value == "") return;
-        socketio.emit("data", {data: message.value}, "time", {time: time});
+        socketio.emit("data", {data: message.value, time: time});
         message.value = "";
         console.log("Sent message")
     };
