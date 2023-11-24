@@ -50,9 +50,9 @@
 
     const sendMessage = () => {
         const message = document.getElementById("message");
-        const time =    new Date().toLocaleString();
+        const time = new Date().toLocaleString();
         if (message.value == "") return;
-        socketio.emit("message", {data: message.value}, time);
+        socketio.emit("message", {data: message.value}, "time");
         message.value = "";
     };
 </script>
