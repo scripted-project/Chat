@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, session, redirect, url_for
 from flask_socketio import join_room, leave_room, send, SocketIO
-import random, datetime
+import random, datetime, os
 from string import ascii_uppercase, ascii_lowercase
 
 app = Flask(__name__)
@@ -108,6 +108,7 @@ def disconnect():
 
 if __name__  == "__main__":
     #socketio.run(app)
-    socketio.run(app, host="0.0.0.0", port=5000)
+    port = int(os.environ.get("PORT", 5000))
+    socketio.run(app, host="0.0.0.0", port=port)
     #socketio.run(app, allow_unsafe_werkzeug=True)
     
