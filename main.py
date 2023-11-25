@@ -41,8 +41,18 @@ def home():
             rooms[room] = {"members": 0, "messages": []}
             print(rooms)
             print(f"{sys.getsizeof(rooms)}")
-        elif code not in rooms:
+        #codeInRooms = False
+        #for dataRoom in rooms:
+        #    if dataRoom == room:
+        #        codeInRooms = True
+        #    else:
+        #        continue
+        #if codeInRooms == False:
+        #    return render_template("home.html", error=f"Room: {room} does not exist.", code=code, name=name)
+        if room not in rooms:
             return render_template("home.html", error=f"Room: {room} does not exist.", code=code, name=name)
+        #elif code not in rooms:
+        #    return render_template("home.html", error=f"Room: {room} does not exist.", code=code, name=name)
         
         session["room"] = room
         session["name"] = name
