@@ -37,12 +37,14 @@ def home():
         room = code
         if create != False:
             room = GenerateUniqueCode(4)
+            print(f"Created room: {room}")
             rooms[room] = {"members": 0, "messages": []}
+            print(rooms)
         elif code not in rooms:
             return render_template("home.html", error="Room does not exist.", code=code, name=name)
         
         session["room"] = room
-        session["name"] = name
+        session["room"] = name
         return redirect(url_for("room"))
     
     return render_template("home.html")
