@@ -24,7 +24,7 @@
 //    }
 
 
-    var socketio = io(); // if this part is weird don't blame me I'm not a java dev
+    var socketio = io("https://chat-csw2.onrender.com", { transports: ["websocket"] }); // if this part is weird don't blame me I'm not a java dev
 
     const messages = document.getElementById('messages')
 
