@@ -44,7 +44,7 @@ def home():
             return render_template("home.html", error=f"Room: {room} does not exist.", code=code, name=name)
         
         session["room"] = room
-        session["room"] = name
+        session["name"] = name
         return redirect(url_for("room"))
     
     return render_template("home.html")
