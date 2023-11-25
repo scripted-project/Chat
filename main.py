@@ -43,6 +43,7 @@ def home():
             print(f"{sys.getsizeof(rooms)}")
         else:
             if room not in rooms:
+                print(f"Existing rooms: {rooms}")
                 return render_template("home.html", error=f"Room: {room} does not exist.", code=code, name=name)
         
         session["room"] = room
