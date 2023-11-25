@@ -41,7 +41,7 @@ def home():
             rooms[room] = {"members": 0, "messages": []}
             print(rooms)
         elif code not in rooms:
-            return render_template("home.html", error="Room does not exist.", code=code, name=name)
+            return render_template("home.html", error=f"Room: {room} does not exist.", code=code, name=name)
         
         session["room"] = room
         session["room"] = name
