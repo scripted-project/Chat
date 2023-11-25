@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, session, redirect, url_for
 from flask_socketio import join_room, leave_room, send, SocketIO
-import random, datetime, os
+import random, datetime, os, sys
 from string import ascii_uppercase, ascii_lowercase
 
 app = Flask(__name__)
@@ -40,6 +40,7 @@ def home():
             print(f"Created room: {room}")
             rooms[room] = {"members": 0, "messages": []}
             print(rooms)
+            print(f"{sys.getsizeof(rooms)}")
         elif code not in rooms:
             return render_template("home.html", error=f"Room: {room} does not exist.", code=code, name=name)
         
