@@ -5,7 +5,7 @@ from string import ascii_uppercase, ascii_lowercase
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "3789"
-socketio = SocketIO(app)
+socketio = SocketIO(app, cors_allowed_origins="*")
 
 rooms = {}
 
@@ -55,7 +55,7 @@ def room():
     
     return render_template("room.html", code=room, messages=rooms[room]["messages"])
 
-@socketio.on("message")
+@socketio.on("data")
 def message(data):
     time = data.get("time")
     messageContent = data.get("data")

@@ -51,8 +51,11 @@
     const sendMessage = () => {
         const message = document.getElementById("message");
         const time = new Date().toLocaleString();
+
         if (message.value == "") return;
-        socketio.emit("data", {data: message.value, time: time});
+        const data = {data: message.value, time: time}
+        console.log("Sending Data:", data)
+        socketio.emit("data", data);
         message.value = "";
         console.log("Sent message")
     };
