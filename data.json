@@ -1,17 +1,19 @@
 {
-    "houses": {
-        "orgin": {
-            "code": "xxxx",
-            "rooms": {
-                "main": {"messages": []}
-            },
-            "users": []
+  "houses": {
+    "orgin": {
+      "code": "xxxx",
+      "rooms": {
+        "main": {
+          "messages": []
         }
-    },
-    "users": {
-        "3333": {
-            "date-joined": "",
-            "name": "jewels333"
-        }
+      },
+      "users": []
     }
+  },
+  "users": {
+    "jewels333": {
+      "id": 21,
+      "password": "1234567890"
+    }
+  }
 }

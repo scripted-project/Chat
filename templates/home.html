@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
-<form method="post" class="buttons">
-    <h3>Enter The Chat room</h3>
+<form method="post" class="home-form">
+    <h3 class="home-heading">Enter The Chat room</h3>
 
     <input type="text" placeholder="Enter Username:" name="username" value="{{username}}"/>
     <input type="text" placeholder="Enter Password" name="password" value="{{password}}"/>
     <div class="home-btns">
         <button type="submit" name="login" class="login-btn">Login</button>
-        <button type="submit" name="sign-up">Sign Up</button>
+        <button type="submit" name="signup">Sign Up</button>
     </div>
     
     {% if error %}
