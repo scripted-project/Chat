@@ -1,0 +1,17 @@
+{
+    "houses": {
+        "orgin": {
+            "code": "xxxx",
+            "rooms": {
+                "main": {"messages": []}
+            },
+            "users": []
+        }
+    },
+    "users": {
+        "3333": {
+            "date-joined": "",
+            "name": "jewels333"
+        }
+    }
+}
