@@ -1,53 +1,131 @@
 .content {
     display: flex;
-    flex-direction: center;
+    flex-direction: column;
     justify-content: center;
+    font-family: Arial, Helvetica, sans-serif;
+    height: 100%;
+    width: 100%;
 }
 
-.buttons {
+.home-form {
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
-    gap: 10px;
+    align-content: center;
+    align-items: center;
+    align-self: center;
 }
 
-.join {
+.home-form input {
+    margin: 4px;
+    height: 3vh;
+    width: 30vh;
+    /*align-self: center;*/
+}
+
+.home-btns {
     display: flex;
     flex-direction: row;
-    width: 100%;
+    justify-content: center;
+    margin: 4px;
 }
 
-.create-btn {
-    width: 100%;
+.home-btns button {
+    margin: 4px;
 }
 
-.message-box {
+.topbar {
+    overflow: hidden;
+    background-color: black;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    height: fit-content;
+    width: auto;
+    flex: 1;
+}
+
+.topbar-user,
+.topbar-house {
+    float: left;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+.topbar-house p,
+.topbar-user p {
+    margin: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: white;
+}
+
+.topbar-user {
+    float: right;
+}
+
+.button {
+    padding: 10px;
+    margin: 5px;
+    background-color: transparent;
+    color: white;
+}
+
+.main {
+    bottom: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    height: 90%;
+}
+
+body, html {
+    padding: 0px;
+    margin: 0px;
+    height: 100%;
+    width: 100%;
+    overflow-y: auto;
+}
+
+.msg-box {
     border-color: black;
     border-width: 2px;
     border-style: solid;
     /*border-radius: 10px; This adds round corners*/
-    background-color: whitesmoke;
-    height: 90vh;
+    background-color: rgb(92, 92, 92);
+    white-space: normal;
     display: flex;
     flex-direction: column;
-    width: 90vw;
+    width: 100%;
     align-items: stretch;
+    /*flex: 1;*/
 }
 
-.messages {
-    overflow-y: scroll;
-    flex: 1;
+.msg-box .header {
+    background-color: rgb(0, 0, 0);
+    color: white;
+    padding: 8px;
+    flex: 0 0 auto;
+}
+
+.msg-box .msgs {
     width: 100%;
+    display: flex;
+    overflow-y: auto;
+    flex-direction: column;
+    /*height: clac(100vh - 50px);*/
+    background-color: gray;
+    border-color: black;
+    flex: 1 1 auto;
+    overflow-x: hidden;
+    white-space: wnormal;
 }
 
 .inputs {
     padding: 10px;
     display: flex;
-}
-
-.h2 {
-    text-align: center;
+    flex: 0 0 auto;
 }
 
 #message {
@@ -61,9 +139,12 @@
     justify-content: space-between;
     padding-left: 10px;
     padding-right: 10px;
+    margin-top: 2px;
+    padding-top: 2px;
 }
 
 .muted {
     font-size: 10px;
     color: darkgray;
+    float: right;
 }

@@ -1,0 +1,28 @@
+{
+    "houses": {
+        "orgin": {
+            "code": "xxxx",
+            "rooms": {
+                "main": {
+                    "members": [],
+                    "messages": [
+                        
+                    ]
+                }
+            },
+            "users": []
+        }
+    },
+    "users": {
+        "jewels333": {
+            "id": 21,
+            "password": "1234567890",
+            "role": "admin"
+        },
+        "jewelsdevalt": {
+            "id": 22,
+            "password": "0987654321",
+            "role": "user"
+        }
+    }
+}

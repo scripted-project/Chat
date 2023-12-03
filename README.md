@@ -10,3 +10,5 @@ In this case, our home.html and room.html files.</p>
 #### Main.py
 <p>1 (Line 18): What this is saying is: if name is empty, do:</p>
 <p>2 (Line 21): What this is saying is: if trying to join and code is empty, do:</p>
+
+<p>I just remebered why i hate sql</p>

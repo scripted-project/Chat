@@ -1,0 +1,77 @@
+{% extends 'base.html ' %}
+{% block content %}
+<div class="top-box">
+    <!-- Add logo -->
+    <label>{{house}}: {{room}}</label>
+</div>
+<div class="main">
+    <div class="rooms-list" id="rooms-list"></div>
+    <div class="message-box" id="message-box">
+        <div class="messages" id="messages"></div>
+        <div class="inputs">
+            <input type="text" rows="3" placeholder="Message" name="message" id="message"/>
+            <button type="button" name="send" id="send-btn" onClick="sendMessage()">Send</button>
+        </div>
+        
+    </div>
+    
+</div>
+<script>
+    const roomslist = document.getElementById('rooms-list')
+
+    const addRoom = (name) => {
+        const room = `
+        <div class="roomsListRoom">
+            <span>${name}</span>
+        </div>
+        `;
+        roomslist.innerHTML += room
+    }
+
+    var input = document.getElementById("message");
+    input.addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            document.getElementById("send-btn").click();
+        }
+    });
+
+    var socketio = io();
+
+    const messages = document.getElementById("message-box")
+
+    const createMessage = (name, msg, time) => {
+        const content = `
+        <div class="text">
+            <span>
+                <strong>${name}</strong>: ${msg}
+            </span>
+            <span class="muted">
+                ${time}
+            </span>
+        </div>
+        `;
+
+        messages.innerHTML += content
+    }
+
+    socketio.on("message", (data) => {
+        createMessage(data.name, data.message, data.time);
+        console.log(data.name, data.message, data.time);
+    });
+
+    const sendMessage = () => {
+        const message = document.getElementById("message");
+        const time =    new Date().toLocaleString();
+        if (message.value == "") return;
+        socketio.emit("message", {data: message.value}, time);
+        message.value = "";
+    };
+</script>
+{% for msg in messages %}
+<script type="text/javascript">
+    createMessage("{{msg.name}}", "{{msg.message}}", "{{msg.time}}")
+    // Needs to connect to database and open all msgs
+</script>
+{% endfor %}
+{% endblock %}
