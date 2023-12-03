@@ -5,7 +5,7 @@ import random, datetime, sqlite3, json
 from string import ascii_lowercase, ascii_uppercase
 # python main-remake.py
 
-app = Flask(__name__)
+app = Flask(__name__) #, template_folder='templates'
 app.config["SECRET_KEY"] = "830156"
 socketio = SocketIO(app)
 
