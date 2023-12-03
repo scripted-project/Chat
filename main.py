@@ -7,7 +7,8 @@ from string import ascii_lowercase, ascii_uppercase
 
 app = Flask(__name__) #, template_folder='templates'
 app.config["SECRET_KEY"] = "830156"
-socketio = SocketIO(app)
+socketio = SocketIO(app, cors_allowed_origins="*")
+
 
 def readJSON(path) -> dict or None:
     try:
@@ -83,7 +84,7 @@ def home():
                 "role": "user"
             }
             print(f"Created account {username}: {password}")
-        
+
         if username not in data["users"] or data["users"][username]["password"] != password:
             return render_template("home.html", error="Incorrect user info.", username=username, password=password)
                 
@@ -99,6 +100,7 @@ def home():
         return redirect(url_for("room"))
     
     return render_template("home.html")
+
 
 @app.route("/app", methods=["POST", "GET"])
 def room():
@@ -139,5 +141,9 @@ def disconnect():
     name = session.get("username")
     join_room(room)
 
-if __name__ == "__main__":
-    socketio.run(app)
+
+if __name__  == "__main__":
+    #socketio.run(app)
+    port = int(os.environ.get("PORT", 5000))
+    socketio.run(app, host="0.0.0.0", port=port)
+    #socketio.run(app, allow_unsafe_werkzeug=True)
