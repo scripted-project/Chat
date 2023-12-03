@@ -24,3 +24,13 @@
 .home-btns button {
     margin: 4px;
 }
+
+.topbar {
+    display: flex;
+    flex-direction: row;
+    top: 0;
+}
+
+.topbar {
+    align-self: left;
+}

@@ -79,6 +79,8 @@ def home():
         
         session["username"] = username
         session["password"] = password
+        session["house"] = "orgin"
+        session["room"] = "main"
         saveJSON("data.json", data)
         return redirect(url_for("room"))
     
@@ -86,7 +88,9 @@ def home():
 
 @app.route("/app")
 def room():
-    return render_template("room.html")
+    return render_template("room.html", house=session.get("house"), room=session.get("room"))
+
+
 
 if __name__ == "__main__":
     socketio.run(app)
