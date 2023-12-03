@@ -106,7 +106,7 @@ def room():
         print(f"User not logged in")
         return redirect(url_for("home"))
     try:
-        print(f"{session.get("username")} now in room {session.get("house")}: {session.get("room")}")
+        print(f"{session.get('username')} now in room {session.get('house')}: {session.get('room')}")
     except:
         print(f"User not logged in")
         return redirect(url_for("home"))
