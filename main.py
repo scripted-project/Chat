@@ -1,123 +1,143 @@
+from ast import Dict
 from flask import Flask, render_template, request, session, redirect, url_for
 from flask_socketio import join_room, leave_room, send, SocketIO
-import random, datetime, sqlite3
-from string import ascii_uppercase
+import random, datetime, sqlite3, json
+from string import ascii_lowercase, ascii_uppercase
+# python main-remake.py
 
 app = Flask(__name__)
-app.config["SECRET_KEY"] = "3789"
+app.config["SECRET_KEY"] = "830156"
 socketio = SocketIO(app)
 
-rooms = {}
+def readJSON(path) -> dict or None:
+    try:
+        with open(path, 'r') as file:
+            data = json.load(file)
+            return data
+    except FileNotFoundError:
+        return None
+def saveJSON(path, data):
+    try:
+        with open(path, 'w') as file:
+            json.dump(data, file, indent=4)
+    except FileNotFoundError:
+        return None
+class Generator():
+    def code(len):
+        while True:
+            code = ""
+            for _ in range(len):
+                code += random.choice(ascii_lowercase)
+            if code in data["houses"]:
+                break
+        return code
+    def id(self, len):
+        while True:
+            id: int = 0
+            isthere: bool = False
+            for _ in range(len):
+                id += random.randint(1, 9)
+            print(id)
+            for user in data["users"]:
+                if data["users"][user]["id"] == id:
+                    isthere = True
+            if isthere == True:
+                break
+            
+            return id
+#class Watcher():
+ #   pf = ProfanityFilter()
+#    def passthrough(msg: str):
+#        profs = pf.get_profane_words(msg)
+#        returned = msg
+ #       for word in profs:
+ #           isSlur = pf.is_slur(word)
+ #           
+  #          if isSlur:
+ #               returned = returned.replace(word, '*' * len(word))
+ #           else:
+ #               returned = returned.replace(word, word[0] + '*' * (len(word) - 1))
+ #       return returned
 
-
-# To use: sqlCommand = """command"""
-# crsr.execute(sqlCommand)
-def GenerateUniqueCode(Length):
-    while True:
-        code = ""
-        for _ in range(Length):
-            code += random.choice(ascii_uppercase)
-        if code not in rooms:
-            break
-        
-    return code
+data: dict = readJSON("data.json")
+cookies = {}
+gen = Generator()
 
 @app.route("/", methods=["POST", "GET"])
 def home():
-    session.clear()
     if request.method == "POST":
-        name = request.form.get("name")
-        code = request.form.get("code")
-        join = request.form.get("join", False)
-        create = request.form.get("create", False)
+        username = request.form.get("username")
+        password = request.form.get("password")
+        login = request.form.get("login", False)
+        signup = request.form.get("signup", False)
         
-        if not name:
-            return render_template("home.html", error="Please enter a name.", code=code, name=name)
+        if not username or not password:
+            return render_template("home.html", error="Enter all info.", username=username, password=password)
+
+        if signup != False:
+            if username in data["users"]:
+                return render_template("home.html", error="Username is in use.", username=username, password=password)
+            data["users"][username] = {
+                "id": gen.id(4),
+                "password": password,
+                "role": "user"
+            }
+            print(f"Created account {username}: {password}")
         
-        if join != False and not code:
-            return render_template("home.html", error="Please enter a room code.", code=code, name=name)
+        if username not in data["users"] or data["users"][username]["password"] != password:
+            return render_template("home.html", error="Incorrect user info.", username=username, password=password)
+                
         
-        room = code
-        if create != False:
-            room = GenerateUniqueCode(4)
-            rooms[room] = {"members": 0, "messages": [], "rooms": []}
-            sqlCommand = f"""
-            CREATE TABLE {room} (
-                user varchar(255)
-                message varchar(60,000)
-                time varchar(255)
-                room varchar(255)
-            );
-            """ # Room should be the house code and house name needs to be added somewhere
-            
-        elif code not in rooms:
-            return render_template("home.html", error="Room does not exist.", code=code, name=name)
-        
-        session["room"] = room
-        session["name"] = name
+        session["username"] = username
+        session["password"] = password
+        session["house"] = "orgin"
+        session["room"] = "main"
+        session["loggedin"] = True
+        print(f"User {username} has logged in.")
+        saveJSON("data.json", data)
+        print(f"{username} redirected to \"room\"")
         return redirect(url_for("room"))
     
     return render_template("home.html")
 
-@app.route("/room")
+@app.route("/app", methods=["POST", "GET"])
 def room():
-    room = session.get("room")
-    if room is None or session.get("name") is None or room not in rooms:
+    if session.get("loggedin") != True:
+        print(f"User not logged in")
         return redirect(url_for("home"))
-    
-    return render_template("room.html", code=room, messages=rooms[room]["messages"])
+    try:
+        print(f"{session.get("username")} now in room {session.get("house")}: {session.get("room")}")
+    except:
+        print(f"User not logged in")
+        return redirect(url_for("home"))
+    return render_template("room.html", house=session.get("house"), room=session.get("room"), username=session.get("username"), state="active", msgs=data["houses"][session.get("house")]["rooms"][session.get("room")]["messages"])
 
-@socketio.on("message")
-def message(data, time):
+@socketio.on("data")
+def message(Data):
     room = session.get("room")
-    if room not in rooms:
-        return
-    
+    time = Data.get("time")
+    message = Data.get("data")
+    print(f"[*] {session.get('username')}: {message} ({time})")
     content = {
-        "name": session.get("name"),
-        "message": data["data"],
+        "name": session.get("username"),
+        "message": message,
         "time": time
     }
     send(content, to=room)
-    rooms[room]["messages"].append(content)
-    print(f"[*] {session.get('name')}: {data['data']} ({time})")
-    
+    data["houses"][session.get("house")]["rooms"][session.get("room")]["messages"].append(f"{session.get('username')}: {message} ({time})")
+    saveJSON("data.json", data)
 
 @socketio.on("connect")
 def connect(auth):
     room = session.get("room")
-    name = session.get("name")
-    if not room or not name:
-        return
-    if room not in rooms:
-        leave_room(room)
-        return
-    
+    name = session.get("username")
     join_room(room)
-    send({"token": "[+] ", "name": name, "message": "has connected"}, to=room)
-    rooms[room]["members"] += 1
-    print(f"[+] {name} connected to {room}")
-
+    
 @socketio.on("disconnect")
 def disconnect():
     room = session.get("room")
-    name = session.get("name")
-    leave_room(room)
-    
-    if room in rooms:
-        rooms[room]["members"] -= 1
-        if rooms[room]["members"] <= 0:
-            del rooms[room]
-            # print(f"{rooms[room]} has been deleted.") This errors and I'm not sure why
-    
-    send({"token": "[-] ", "name": name, "message": "has disconnected"}, to=room)
-    print(f"[-] {name} has disconnected from {room}")
+    name = session.get("username")
+    join_room(room)
 
-
-
-if __name__  == "__main__":
+if __name__ == "__main__":
     socketio.run(app)
-    #socketio.run(app, host="0.0.0.0", port=5000)
-    #socketio.run(app, allow_unsafe_werkzeug=True)
-    
-connection.close()
