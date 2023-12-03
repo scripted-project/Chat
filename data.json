@@ -1,107 +1,77 @@
 {
-  "houses": {
-    "orgin": {
-      "code": "xxxx",
-      "rooms": {
-        "main": {
-          "members": [],
-          "messages": [
-            {
-              "name": "jewels333",
-              "message": "hi",
-              "time": "12/3/2023, 2:35:16 PM"
+    "houses": {
+        "orgin": {
+            "code": "xxxx",
+            "rooms": {
+                "main": {
+                    "members": [],
+                    "messages": [
+                        "jewelsdevalt: alright (12/3/2023, 3:26:16 PM)",
+                        "jewelsdevalt: new updates (12/3/2023, 3:26:22 PM)",
+                        "jewelsdevalt: dam it bro (12/3/2023, 3:35:00 PM)",
+                        "jewelsdevalt: comon a (12/3/2023, 3:35:22 PM)",
+                        "jewels333: wwhat (12/3/2023, 3:35:25 PM)",
+                        "jewels333: storke (12/3/2023, 3:35:29 PM)",
+                        "jewels333: stroke (12/3/2023, 3:35:35 PM)",
+                        "jewels333: we should add that members page (12/3/2023, 3:36:14 PM)",
+                        "jewels333: ye (12/3/2023, 3:36:19 PM)",
+                        "jewels333: later (12/3/2023, 3:36:22 PM)",
+                        "jewels333: we gotta spam tho (12/3/2023, 3:36:55 PM)",
+                        "jewelsdevalt: oh (12/3/2023, 3:36:58 PM)",
+                        "jewelsdevalt: k (12/3/2023, 3:37:01 PM)",
+                        "jewels333: s (12/3/2023, 3:37:05 PM)",
+                        "jewels333: sss (12/3/2023, 3:37:06 PM)",
+                        "jewels333: s (12/3/2023, 3:37:06 PM)",
+                        "jewels333: s (12/3/2023, 3:37:06 PM)",
+                        "jewels333: s (12/3/2023, 3:37:06 PM)",
+                        "jewels333: s (12/3/2023, 3:37:07 PM)",
+                        "jewels333: s (12/3/2023, 3:37:07 PM)",
+                        "jewels333: s (12/3/2023, 3:37:07 PM)",
+                        "jewels333: s (12/3/2023, 3:37:08 PM)",
+                        "jewels333: s (12/3/2023, 3:37:09 PM)",
+                        "jewels333: s (12/3/2023, 3:37:10 PM)",
+                        "jewels333: s (12/3/2023, 3:37:10 PM)",
+                        "jewels333: s (12/3/2023, 3:37:10 PM)",
+                        "jewels333: s (12/3/2023, 3:37:10 PM)",
+                        "jewels333: s (12/3/2023, 3:37:11 PM)",
+                        "jewels333: s (12/3/2023, 3:37:11 PM)",
+                        "jewels333: ss (12/3/2023, 3:37:11 PM)",
+                        "jewels333: s (12/3/2023, 3:37:11 PM)",
+                        "jewels333: WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW (12/3/2023, 3:37:15 PM)",
+                        "jewelsdevalt: WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW (12/3/2023, 3:37:21 PM)",
+                        "jewels333: we should add overflow-x handling (12/3/2023, 3:37:38 PM)",
+                        "jewelsdevalt: prob (12/3/2023, 3:37:42 PM)",
+                        "jewelsdevalt: done (12/3/2023, 3:40:37 PM)",
+                        "jewelsdevalt: that was delayd (12/3/2023, 3:40:44 PM)",
+                        "jewels333: servers must be acting up again (12/3/2023, 3:40:58 PM)",
+                        "jewelsdevalt: darn tootin (12/3/2023, 3:41:02 PM)",
+                        "jewels333: anyway (12/3/2023, 3:41:10 PM)",
+                        "jewelsdevalt: wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww (12/3/2023, 3:41:14 PM)",
+                        "jewelsdevalt: wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww (12/3/2023, 3:41:26 PM)",
+                        "jewelsdevalt: wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww (12/3/2023, 3:42:34 PM)",
+                        "jewelsdevalt: lllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll (12/3/2023, 3:43:40 PM)",
+                        "jewelsdevalt: darn (12/3/2023, 3:43:47 PM)",
+                        "jewels333: the servers bro (12/3/2023, 3:44:42 PM)",
+                        "jewels333: i swear (12/3/2023, 3:44:46 PM)",
+                        "jewelsdevalt: ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss (12/3/2023, 3:44:54 PM)",
+                        "jewelsdevalt: sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss (12/3/2023, 3:45:10 PM)",
+                        "jewelsdevalt: whatever (12/3/2023, 3:45:22 PM)"
+                    ]
+                }
             },
-            {
-              "name": "jewels333",
-              "message": "hey",
-              "time": "12/3/2023, 2:41:19 PM"
-            },
-            {
-              "name": "jewelsdevalt",
-              "message": "hello there",
-              "time": "12/3/2023, 2:41:28 PM"
-            },
-            {
-              "name": "jewelsdevalt",
-              "message": "oh may",
-              "time": "12/3/2023, 2:41:34 PM"
-            },
-            {
-              "name": "jewelsdevalt",
-              "message": "this is weird",
-              "time": "12/3/2023, 2:41:42 PM"
-            },
-            {
-              "name": "jewels333",
-              "message": "yeah let me fix that",
-              "time": "12/3/2023, 2:41:52 PM"
-            },
-            {
-              "name": "jewels333",
-              "message": "hello",
-              "time": "12/3/2023, 2:43:33 PM"
-            },
-            {
-              "name": "jewelsdevalt",
-              "message": "hey!",
-              "time": "12/3/2023, 2:43:39 PM"
-            },
-            {
-              "name": "jewelsdevalt",
-              "message": "looks like this is working!",
-              "time": "12/3/2023, 2:43:52 PM"
-            },
-            {
-              "name": "jewels333",
-              "message": "yup",
-              "time": "12/3/2023, 2:44:00 PM"
-            },
-            {
-              "name": "jewelsdevalt",
-              "message": "so whats on the to-do list?",
-              "time": "12/3/2023, 2:44:14 PM"
-            },
-            {
-              "name": "jewels333",
-              "message": "1:\\n",
-              "time": "12/3/2023, 2:44:23 PM"
-            },
-            {
-              "name": "jewelsdevalt",
-              "message": "what",
-              "time": "12/3/2023, 2:44:27 PM"
-            },
-            {
-              "name": "jewels333",
-              "message": "sorry 1: event listener for the input box",
-              "time": "12/3/2023, 2:44:56 PM"
-            },
-            {
-              "name": "jewelsdevalt",
-              "message": "and some other stuff",
-              "time": "12/3/2023, 2:45:30 PM"
-            },
-            {
-              "name": "jewels333",
-              "message": "ye lets do that now",
-              "time": "12/3/2023, 2:45:40 PM"
-            }
-          ]
+            "users": []
         }
-      },
-      "users": []
-    }
-  },
-  "users": {
-    "jewels333": {
-      "id": 21,
-      "password": "1234567890",
-      "role": "admin"
     },
-    "jewelsdevalt": {
-      "id": 22,
-      "password": "0987654321",
-      "role": "user"
+    "users": {
+        "jewels333": {
+            "id": 21,
+            "password": "1234567890",
+            "role": "admin"
+        },
+        "jewelsdevalt": {
+            "id": 22,
+            "password": "0987654321",
+            "role": "user"
+        }
     }
-  }
 }

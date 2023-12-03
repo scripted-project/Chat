@@ -19,7 +19,7 @@ def readJSON(path) -> dict or None:
 def saveJSON(path, data):
     try:
         with open(path, 'w') as file:
-            json.dump(data, file, indent=2)
+            json.dump(data, file, indent=4)
     except FileNotFoundError:
         return None
 class Generator():
@@ -124,7 +124,7 @@ def message(Data):
         "time": time
     }
     send(content, to=room)
-    data["houses"][session.get("house")]["rooms"][session.get("room")]["messages"].append(content)
+    data["houses"][session.get("house")]["rooms"][session.get("room")]["messages"].append(f"{session.get('username')}: {message} ({time})")
     saveJSON("data.json", data)
 
 @socketio.on("connect")
