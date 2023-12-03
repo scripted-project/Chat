@@ -1,12 +1,33 @@
 {% extends 'base.html ' %}
 {% block content %}
 <div class="topbar">
-    <button id="houses-opener">Houses</button>
-    <p>{{house}}: {{room}}</p>
-    <div class="topbar-btns">
-        <button id="members-opener">Members</button>
+    <div class="topbar-user">
+        <button id="houses-opener">Houses</button>
+        <p>{{username}}: {{state}}</p>
+    </div>
+    <div class="topbar-house">
         <button id="rooms-opener">Rooms</button>
+        <button id="members-opener">Members</button>
     </div>
 </div>
-<div class="main"></div>
+
+<div class="main">
+    <div class="sidebar"></div>
+    <div class="msg-box">
+        <div class="header">
+            <h2>{{house}}: {{room}}</h2>
+        </div>
+        <div class="msgs" id="msgs"></div>
+        <div class="inputs">
+            <input type="text" rows="3" placeholder="Message" name="message" id="message"/>
+            <button type="button" name="send" id="send-btn" onClick="sendMessage()">Send</button>
+        </div>
+    </div>
+</div>
+<script src="{{url_for('static', filename='scripts/main.js')}}"></script>
+{% for msg in messages %}
+<script>
+    createMessage("{{msg.name}}", "{{msg.message}}", "{{msg.time}}")
+</script>
+{% endfor %}
 {% endblock %}
