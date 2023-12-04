@@ -2,7 +2,8 @@ from ast import Dict
 from flask import Flask, render_template, request, session, redirect, url_for
 from flask_socketio import join_room, leave_room, send, SocketIO
 import random, datetime, sqlite3, json
-from string import ascii_lowercase, ascii_uppercase
+from string import ascii_lowercase 
+from better_profanity import profanity 
 # python main-remake.py
 
 app = Flask(__name__) #, template_folder='templates'
@@ -46,23 +47,14 @@ class Generator():
                 break
             
             return id
-#class Watcher():
- #   pf = ProfanityFilter()
-#    def passthrough(msg: str):
-#        profs = pf.get_profane_words(msg)
-#        returned = msg
- #       for word in profs:
- #           isSlur = pf.is_slur(word)
- #           
-  #          if isSlur:
- #               returned = returned.replace(word, '*' * len(word))
- #           else:
- #               returned = returned.replace(word, word[0] + '*' * (len(word) - 1))
- #       return returned
+class Watcher():
+    def passthrough(self, msg: str):
+        return profanity.censor(msg, '*')      
 
 data: dict = readJSON("data.json")
 cookies = {}
 gen = Generator()
+w = Watcher()
 
 @app.route("/", methods=["POST", "GET"])
 def home():
@@ -76,6 +68,7 @@ def home():
             return render_template("home.html", error="Enter all info.", username=username, password=password)
 
         if signup != False:
+            username = w.passthrough(username)
             if username in data["users"]:
                 return render_template("home.html", error="Username is in use.", username=username, password=password)
             data["users"][username] = {
@@ -119,6 +112,7 @@ def message(Data):
     room = session.get("room")
     time = Data.get("time")
     message = Data.get("data")
+    message = w.passthrough(message)
     print(f"[*] {session.get('username')}: {message} ({time})")
     content = {
         "name": session.get("username"),
@@ -126,7 +120,7 @@ def message(Data):
         "time": time
     }
     send(content, to=room)
-    data["houses"][session.get("house")]["rooms"][session.get("room")]["messages"].append(f"{session.get('username')}: {message} ({time})")
+    data["houses"][session.get("house")]["rooms"][session.get("room")]["messages"].append(content)
     saveJSON("data.json", data)
 
 @socketio.on("connect")
@@ -143,7 +137,7 @@ def disconnect():
 
 
 if __name__  == "__main__":
-    #socketio.run(app)
-    port = int(os.environ.get("PORT", 5000))
-    socketio.run(app, host="0.0.0.0", port=port)
+    socketio.run(app)
+    #port = int(os.environ.get("PORT", 5000))
+    #socketio.run(app, host="0.0.0.0", port=port)
     #socketio.run(app, allow_unsafe_werkzeug=True)

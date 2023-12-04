@@ -38,3 +38,7 @@ document.getElementById('message').addEventListener('keypress', function(event) 
 function autoScroll() {
     messages.scrollTop = messages.scrollHeight;
 }
+
+function getMessages(house, room) {
+    
+}
