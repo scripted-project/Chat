@@ -50,11 +50,47 @@ class Generator():
 class Watcher():
     def passthrough(self, msg: str):
         return profanity.censor(msg, '*')      
+class API():
+    token = "SChatauth4" # !TO-DO!: 1: class room inside house() 2: move get msgs into room()
+    def getMessages(self, auth, house, room):
+        
+        if auth != self.token:
+            abort(401, description="Unathorized - Incorrect Key")
+
+        if not house or not room or not auth:
+            abort(400, description="'house', 'room', and 'auth' parameters are required.")
+
+        if house not in data["houses"] or room not in data["houses"][house]["rooms"]:
+            abort(404, description="House or room not found.")
+
+        return jsonify(data["houses"][house]["rooms"][room]["messages"])
+    def getUser(self, auth, user):
+        if auth != self.token:
+            abort(401, description="Unathorized - Incorrect Key")
+
+        if not auth or not user:
+            abort(400, description="'auth' and 'user' parameters are required.")
+
+        if user not in data["users"]:
+            abort(404, description="User not found.")
+            
+        return jsonify(data["users"][user]) 
+    class user():
+        def __init__(self, name, auth):
+            self.name = name
+        def houses(self):
+            return jsonify(data["users"][self.name]["houses"])
+    class house():
+        def __init__(self, auth, house):
+            self.house = house
+        def rooms(self):
+            return jsonify(data["houses"][self.house]["rooms"])
 
 data: dict = readJSON("data.json")
 cookies = {}
 gen = Generator()
 w = Watcher()
+api = API()
 
 # pages
 @app.route("/", methods=["POST", "GET"])
@@ -75,7 +111,8 @@ def home():
             data["users"][username] = {
                 "id": gen.id(4),
                 "password": password,
-                "role": "user"
+                "role": "user",
+                "houses": ["orgin"]
             }
             print(f"Created account {username}: {password}")
 
@@ -138,21 +175,26 @@ def disconnect():
 
 # API
 @app.route("/api/msgs", methods=["GET"])
-def getMessages():
+def returnMSGS():
     house = request.args.get('house')
     room = request.args.get('room')
     auth = request.args.get('auth')
     
-    if auth != "SChatauth4":
-        abort(401, description="Unathorized - Incorrect Key")
+    return api.getMessages(auth, house, room)
 
-    if not house or not room or not auth:
-        abort(400, description="'house', 'room', and 'auth' parameters are required.")
+@app.route("api/user", methods=["GET"])
+def returnUSER():
+    user = request.args.get('user')
+    auth = request.args.get('auth')
+    
+    return api.getUser(auth, user)
 
-    if house not in data["houses"] or room not in data["houses"][house]["rooms"]:
-        abort(404, description="House or room not found.")
-
-    return jsonify(data["houses"][house]["rooms"][room]["messages"])
+@app.route("/api/roms", methods=["GET"])
+def returnROMS():
+    auth = request.args.get('auth')
+    house = request.args.get('auth')
+    
+    return api.house(auth, house).rooms()
 
 if __name__  == "__main__":
     socketio.run(app)

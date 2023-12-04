@@ -46,32 +46,8 @@
         "jewels333": {
             "id": 21,
             "password": "1234567890",
-            "role": "admin"
-        },
-        "jewelsdevalt": {
-            "id": 22,
-            "password": "0987654321",
-            "role": "user"
-        },
-        "Oragin": {
-            "id": 18,
-            "password": "oragin",
-            "role": "user"
-        },
-        "Logi": {
-            "id": 19,
-            "password": "daddygru123",
-            "role": "user"
-        },
-        "****": {
-            "id": null,
-            "password": "higru",
-            "role": "user"
-        },
-        " ": {
-            "id": 24,
-            "password": " ",
-            "role": "user"
+            "role": "admin",
+            "houses": ["orgin"]
         }
     }
 }
