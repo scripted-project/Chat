@@ -3,23 +3,37 @@ const auth1 = "SChatauth4";
 const auth2 = "SChatauth8";
 
 const messages = document.getElementById('msgs');
-const createMessage = (name, msg, time) => { // add msg to html document
-    const content = `
-    <div class="text">
-        <span>
-            <strong>${name}</strong>: ${msg}
-        </span>
-        <span class="muted">
-            ${time}
-        </span>
-    </div>
-    `;
-    messages.innerHTML += content
+const createMessage = (name, msg, time, role) => { // add msg to html document
+    if (role == "admin") {
+        const content = `
+        <div class="text-admin">
+            <span>
+                <strong>${name}</strong>: ${msg}
+            </span>
+            <span class="muted">
+                ${time}
+            </span>
+        </div>
+        `;
+        messages.innerHTML += content
+    } else {
+        const content = `
+        <div class="text">
+            <span>
+                <strong>${name}</strong>: ${msg}
+            </span>
+            <span class="muted">
+                ${time}
+            </span>
+        </div>
+        `;
+        messages.innerHTML += content
+    }
     autoScroll();
 }
 
 socketio.on("message", (data) => {
-    createMessage(data.name, data.message, data.time);
+    createMessage(data.name, data.message, data.time, data.role);
 });
 
 const sendMessage = () => {

@@ -115,6 +115,7 @@ def home():
                 "houses": ["orgin"]
             }
             print(f"Created account {username}: {password}")
+            data["houses"]["orgin"]["users"].append(username)
 
         if username not in data["users"] or data["users"][username]["password"] != password:
             return render_template("home.html", error="Incorrect user info.", username=username, password=password)
@@ -142,6 +143,7 @@ def room():
     except:
         print(f"User not logged in")
         return redirect(url_for("home"))
+    data["houses"][session.get("house")]["rooms"][session.get("room")]["members"].append(session.get("username"))
     return render_template("room.html", house=session.get("house"), room=session.get("room"), username=session.get("username"), state="active", data=data)
 
 # sockets
@@ -150,12 +152,14 @@ def message(Data):
     room = session.get("room")
     time = Data.get("time")
     message = Data.get("data")
+    role = data["users"][session.get("username")]["role"]
     message = w.passthrough(message)
     print(f"[*] {session.get('username')}: {message} ({time})")
     content = {
         "name": session.get("username"),
         "message": message,
-        "time": time
+        "time": time,
+        "role": role
     }
     send(content, to=room)
     data["houses"][session.get("house")]["rooms"][session.get("room")]["messages"].append(content)
@@ -182,7 +186,7 @@ def returnMSGS():
     
     return api.getMessages(auth, house, room)
 
-@app.route("api/user", methods=["GET"])
+@app.route("/api/user", methods=["GET"])
 def returnUSER():
     user = request.args.get('user')
     auth = request.args.get('auth')

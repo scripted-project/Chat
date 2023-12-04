@@ -119,7 +119,7 @@ body, html {
     border-color: black;
     flex: 1 1 auto;
     overflow-x: hidden;
-    white-space: wnormal;
+    white-space: normal;
 }
 
 .inputs {
@@ -132,6 +132,7 @@ body, html {
     flex: 1;
 }
 
+.text-admin,
 .text {
     display: flex;
     flex-direction: row;
@@ -143,8 +144,19 @@ body, html {
     padding-top: 2px;
 }
 
+.text-admin {
+    color: blue;
+}
+
 .muted {
     font-size: 10px;
     color: darkgray;
     float: right;
+}
+
+.sidebar-left {
+    width: 0;
+    position: fixed;
+    overflow-x: hidden;
+    transition: 0.5s;
 }

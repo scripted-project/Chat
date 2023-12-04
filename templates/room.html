@@ -12,7 +12,11 @@
 </div>
 
 <div class="main">
-    <div class="sidebar"></div>
+    <div class="sidebar-left">
+        <div class="houses">
+            <h2>Houses</h2>
+        </div>
+    </div>
     <div class="msg-box">
         <div class="header">
             <h2 data-house="{{ house }}" data-room="{{ room }}">{{house}}: {{room}}</h2>
@@ -21,6 +25,14 @@
         <div class="inputs">
             <input type="text" rows="3" placeholder="Message" name="message" id="message"/>
             <button type="button" name="send" id="send-btn" onClick="sendMessage()">Send</button>
+        </div>
+    </div>
+    <div class="sidebar-right">
+        <div class="rooms">
+            <h2>Rooms</h2>
+        </div>
+        <div class="members">
+            <h2>Members</h2>
         </div>
     </div>
 </div>
