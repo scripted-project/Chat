@@ -1,5 +1,5 @@
 from ast import Dict
-from flask import Flask, render_template, request, session, redirect, url_for
+from flask import Flask, render_template, request, session, redirect, url_for, jsonify, abort
 from flask_socketio import join_room, leave_room, send, SocketIO
 import random, datetime, sqlite3, json
 from string import ascii_lowercase 
@@ -56,6 +56,7 @@ cookies = {}
 gen = Generator()
 w = Watcher()
 
+# pages
 @app.route("/", methods=["POST", "GET"])
 def home():
     if request.method == "POST":
@@ -94,7 +95,6 @@ def home():
     
     return render_template("home.html")
 
-
 @app.route("/app", methods=["POST", "GET"])
 def room():
     if session.get("loggedin") != True:
@@ -105,8 +105,9 @@ def room():
     except:
         print(f"User not logged in")
         return redirect(url_for("home"))
-    return render_template("room.html", house=session.get("house"), room=session.get("room"), username=session.get("username"), state="active", msgs=data["houses"][session.get("house")]["rooms"][session.get("room")]["messages"])
+    return render_template("room.html", house=session.get("house"), room=session.get("room"), username=session.get("username"), state="active", data=data)
 
+# sockets
 @socketio.on("data")
 def message(Data):
     room = session.get("room")
@@ -135,6 +136,23 @@ def disconnect():
     name = session.get("username")
     join_room(room)
 
+# API
+@app.route("/api/msgs", methods=["GET"])
+def getMessages():
+    house = request.args.get('house')
+    room = request.args.get('room')
+    auth = request.args.get('auth')
+    
+    if auth != "SChatauth4":
+        abort(401, description="Unathorized - Incorrect Key")
+
+    if not house or not room or not auth:
+        abort(400, description="'house', 'room', and 'auth' parameters are required.")
+
+    if house not in data["houses"] or room not in data["houses"][house]["rooms"]:
+        abort(404, description="House or room not found.")
+
+    return jsonify(data["houses"][house]["rooms"][room]["messages"])
 
 if __name__  == "__main__":
     socketio.run(app)

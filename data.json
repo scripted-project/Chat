@@ -6,7 +6,36 @@
                 "main": {
                     "members": [],
                     "messages": [
-                        
+                        {
+                            "name": "jewels333",
+                            "message": "hi there",
+                            "time": "12/4/2023, 3:43:31 PM"
+                        },
+                        {
+                            "name": "jewels333",
+                            "message": "this saved",
+                            "time": "12/4/2023, 3:43:37 PM"
+                        },
+                        {
+                            "name": "jewels333",
+                            "message": "sooooo",
+                            "time": "12/4/2023, 3:43:39 PM"
+                        },
+                        {
+                            "name": "jewels333",
+                            "message": "wsg",
+                            "time": "12/4/2023, 4:23:45 PM"
+                        },
+                        {
+                            "name": "jewels333",
+                            "message": "hey",
+                            "time": "12/4/2023, 4:23:49 PM"
+                        },
+                        {
+                            "name": "jewels333",
+                            "message": "WWWWWWWWWWWWWWWWWWWWWWWW",
+                            "time": "12/4/2023, 4:24:02 PM"
+                        }
                     ]
                 }
             },

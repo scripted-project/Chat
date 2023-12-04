@@ -1,4 +1,6 @@
 var socketio = io()
+const auth1 = "SChatauth4";
+const auth2 = "SChatauth8";
 
 const messages = document.getElementById('msgs');
 const createMessage = (name, msg, time) => { // add msg to html document
@@ -39,6 +41,23 @@ function autoScroll() {
     messages.scrollTop = messages.scrollHeight;
 }
 
-function getMessages(house, room) {
-    
+function displayMessages() {
+    const house = document.querySelector('.header h2').dataset.house;
+    const room = document.querySelector('.header h2').dataset.room;
+    fetch(`/api/msgs?house=${house}&room=${room}&auth=${auth1}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Failed to fetch: ${response.status} ${response.statusText}`);
+            }
+            console.log('Response Status:', response.status)
+            return response.json();
+        })
+        .then(msgs => {
+            msgs.forEach(msg => {
+                createMessage(msg.name, msg.message, msg.time)
+            });
+        })
+        .catch(error => console.error('Error fetching messages:', error));
 }
+
+window.onload = displayMessages();

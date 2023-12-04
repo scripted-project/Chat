@@ -15,7 +15,7 @@
     <div class="sidebar"></div>
     <div class="msg-box">
         <div class="header">
-            <h2>{{house}}: {{room}}</h2>
+            <h2 data-house="{{ house }}" data-room="{{ room }}">{{house}}: {{room}}</h2>
         </div>
         <div class="msgs" id="msgs"></div>
         <div class="inputs">
@@ -24,11 +24,5 @@
         </div>
     </div>
 </div>
-
-{% for msg in '{{messages}}'' %}
-<script>
-    createMessage("{{msg.name}}", "{{msg.message}}", "{{msg.time}}")
-</script>
-{% endfor %}
-<script src="{{url_for('static', filename='scripts/main.js')}}"></script>
+<script src="{{ url_for('static', filename='scripts/main.js') }}"></script>
 {% endblock %}
