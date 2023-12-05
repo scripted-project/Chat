@@ -177,7 +177,7 @@ def disconnect():
     name = session.get("username")
     join_room(room)
 
-# API
+# API (private)
 @app.route("/api/msgs", methods=["GET"])
 def returnMSGS():
     house = request.args.get('house')
@@ -199,6 +199,12 @@ def returnROMS():
     house = request.args.get('auth')
     
     return api.house(auth, house).rooms()
+
+# API (public)
+@app.route("/api/public", methods=["GET"])
+def apiConnection():
+    return "Connected"
+# Later add API keys
 
 if __name__  == "__main__":
     socketio.run(app)

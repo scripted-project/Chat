@@ -160,3 +160,10 @@ body, html {
     overflow-x: hidden;
     transition: 0.5s;
 }
+
+.sidebar-right {
+    width: 0;
+    position: fixed;
+    overflow-x: hidden;
+    transition: 0.5s;
+}
