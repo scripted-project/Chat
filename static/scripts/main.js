@@ -58,7 +58,7 @@ function autoScroll() {
 function displayMessages() {
     const house = document.querySelector('.header h2').dataset.house;
     const room = document.querySelector('.header h2').dataset.room;
-    fetch(`/api/msgs?house=${house}&room=${room}&auth=${auth1}`)
+    fetch(`/api/private/msgs?house=${encodeURIComponent(house)}&room=${encodeURIComponent(room)}&auth=${encodeURIComponent(auth1)}&range=dynamic`)
         .then(response => {
             if (!response.ok) {
                 throw new Error(`Failed to fetch: ${response.status} ${response.statusText}`);

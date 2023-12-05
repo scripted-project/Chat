@@ -1,4 +1,5 @@
 from ast import Dict
+from bidict import namedbidict
 from flask import Flask, render_template, request, session, redirect, url_for, jsonify, abort
 from flask_socketio import join_room, leave_room, send, SocketIO
 import random, datetime, sqlite3, json
@@ -51,19 +52,40 @@ class Watcher():
     def passthrough(self, msg: str):
         return profanity.censor(msg, '*')      
 class API():
-    token = "SChatauth4" # !TO-DO!: 1: class room inside house() 2: move get msgs into room()
-    def getMessages(self, auth, house, room):
+    token = "SChatauth4" 
+    def getMessages(self, auth, house, room, range):
         
         if auth != self.token:
-            abort(401, description="Unathorized - Incorrect Key")
-
+            abort(401, description="Unauthorized - Incorrect Key")
         if not house or not room or not auth:
             abort(400, description="'house', 'room', and 'auth' parameters are required.")
-
         if house not in data["houses"] or room not in data["houses"][house]["rooms"]:
             abort(404, description="House or room not found.")
-
-        return jsonify(data["houses"][house]["rooms"][room]["messages"])
+            
+        if range == "dynamic":
+            n = 0
+            msgs = []
+            for msg in reversed(data["houses"][house]["rooms"][room]["messages"]):
+                if n == 20:
+                    break
+                msgs.append(msg)
+                n += 1
+            return jsonify(msgs)
+        elif isinstance(range, int):
+            n = 0
+            msgs = []
+            for msg in reversed(data["houses"][house]["rooms"][room]["messages"]):
+                if n == range:
+                    break
+                msgs.append(msg)
+                n += 1
+            return jsonify(msgs)
+        elif range == "all":
+            n = 0
+            msgs = []
+            for msg in reversed(data["houses"][house]["rooms"][room]["messages"]):
+                msgs.append(msg)
+            return jsonify(msgs)
     def getUser(self, auth, user):
         if auth != self.token:
             abort(401, description="Unathorized - Incorrect Key")
@@ -75,16 +97,30 @@ class API():
             abort(404, description="User not found.")
             
         return jsonify(data["users"][user]) 
-    class user():
-        def __init__(self, name, auth):
-            self.name = name
-        def houses(self):
-            return jsonify(data["users"][self.name]["houses"])
-    class house():
-        def __init__(self, auth, house):
-            self.house = house
-        def rooms(self):
-            return jsonify(data["houses"][self.house]["rooms"])
+    def getRooms(self, auth, house):
+        
+        if auth != self.token:
+            abort(401, description="Unathorized - Incorrect Key")
+        
+        if not auth or not house:
+            abort(400, description="'auth' and 'house' parameters are required.")
+            
+        if house not in data["houses"]:
+            abort(400, description="House not found")
+        
+        return jsonify(data["houses"][house]["rooms"])
+    def getHouse(self, auth, name):
+        
+        if auth != self.token:
+            abort(401, description="Unathorized - Incorrect Key")
+        
+        if not auth or not name:
+            abort(400, description="'auth' and 'name' parameters are required.")
+            
+        if name not in data["houses"]:
+            abort(400, description="House not found")
+        
+        return jsonify(data["houses"][name])
 class AI():
     def __init__(self):
         pass
@@ -95,6 +131,8 @@ cookies = {}
 gen = Generator()
 w = Watcher()
 api = API()
+statusCode = 200
+statusDesc = "Connected"
 
 # pages
 @app.route("/", methods=["POST", "GET"])
@@ -194,34 +232,46 @@ def disconnect():
     room = session.get("room")
     name = session.get("username")
     join_room(room)
+    
 
 # API (private)
-@app.route("/api/msgs", methods=["GET"])
+@app.route("/api/private/msgs", methods=["GET"])
 def returnMSGS():
     house = request.args.get('house')
     room = request.args.get('room')
     auth = request.args.get('auth')
+    range = request.args.get('range')
     
-    return api.getMessages(auth, house, room)
+    return api.getMessages(auth, house, room, range)
 
-@app.route("/api/user", methods=["GET"])
+@app.route("/api/private/user", methods=["GET"])
 def returnUSER():
     user = request.args.get('user')
     auth = request.args.get('auth')
     
     return api.getUser(auth, user)
 
-@app.route("/api/roms", methods=["GET"])
+@app.route("/api/private/roms", methods=["GET"])
 def returnROMS():
     auth = request.args.get('auth')
     house = request.args.get('auth')
     
-    return api.house(auth, house).rooms()
+    return api.getRooms(auth, house)
 
 # API (public)
 @app.route("/api/public", methods=["GET"])
 def apiConnection():
-    return "Connected"
+    status = f"{statusCode}: {statusDesc}"
+    key = 0
+    
+    for i in range(1, 19):
+        key += random.randint(1, 9)
+    
+    returned = {
+        "status": status,
+        "key": key
+    }
+    return returned
 # Later add API keys
 
 if __name__  == "__main__":
