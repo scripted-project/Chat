@@ -85,7 +85,11 @@ class API():
             self.house = house
         def rooms(self):
             return jsonify(data["houses"][self.house]["rooms"])
+class AI():
+    def __init__(self):
+        pass
 
+ai = AI()
 data: dict = readJSON("data.json")
 cookies = {}
 gen = Generator()
@@ -145,6 +149,20 @@ def room():
         return redirect(url_for("home"))
     data["houses"][session.get("house")]["rooms"][session.get("room")]["members"].append(session.get("username"))
     return render_template("room.html", house=session.get("house"), room=session.get("room"), username=session.get("username"), state="active", data=data)
+
+@app.route("/create/room", methods=["POST", "GET"])
+def createRoom():
+    if session.get("loggedin") != True:
+        return render_template(url_for("home"))
+    
+    return render_template("create-room.html")
+
+@app.route("/create/house", methods=["POST", "GET"])
+def createHouse():
+    if session.get("loggedin") != True:
+        return render_template(url_for("home"))
+    
+    return render_template("create.html")
 
 # sockets
 @socketio.on("data")
