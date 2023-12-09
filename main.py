@@ -2,8 +2,8 @@ from ast import Dict
 from bidict import namedbidict
 from flask import Flask, render_template, request, session, redirect, url_for, jsonify, abort
 from flask_socketio import join_room, leave_room, send, SocketIO
-import random, datetime, sqlite3, json, secrets, schedule, time
-from string import ascii_letters, digits, punctuation
+import random, datetime, sqlite3, json, secrets, schedule, time, logging, sys
+from string import ascii_letters, digits, punctuation, ascii_lowercase
 from better_profanity import profanity 
 # python main-remake.py
 
@@ -11,6 +11,10 @@ app = Flask(__name__) #, template_folder='templates'
 app.config["SECRET_KEY"] = "830156"
 socketio = SocketIO(app, cors_allowed_origins="*")
 PRIVATE_KEY = ''.join(secrets.choice(ascii_letters + digits + punctuation) for _ in range(32)) #Generate 32 digit key
+
+app.logger.disabled = True
+log = logging.getLogger('werkzeug')
+log.disabled = True
 
 
 def readJSON(path) -> dict or None:
