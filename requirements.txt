@@ -3,3 +3,4 @@ flask-socketio
 gunicorn
 better_profanity
 schedule
+cryptography

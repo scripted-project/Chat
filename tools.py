@@ -56,7 +56,7 @@ Clear line from cursor left: \033[1K
 Clear entire line: \033[2K"""
 
 
-def save(filepath: str, type: str, data) -> dict:
+def save(filepath: str, type: str, data, cc=False) -> dict:
     """
     docstring
     """ # TODO: Finish docstring for save()
@@ -74,7 +74,8 @@ def save(filepath: str, type: str, data) -> dict:
                     "code": 200,
                     "description": "Saved data."
                     }
-                print(f"{c.green}Request: {c.end}{c.blue}{request['type']}: {request['path']} {c.end} -> {c.green}Response: {c.end}{c.cyan}{response['code']}: {response['description']}{c.end}")
+                if cc == True:
+                    printCC(success(request, response))
                 return request, response
             except Exception as e:
                 print(e)
@@ -90,7 +91,7 @@ def save(filepath: str, type: str, data) -> dict:
                 }
             print(error(request, response))
             return request, response       
-def get(filepath: str, type: str) -> dict:
+def get(filepath: str, type: str, cc=False) -> dict:
     """
     REMEMBER: To unpack only 1 var, use: `_, var` or `var, _`
     
@@ -118,7 +119,10 @@ def get(filepath: str, type: str) -> dict:
                     "code": 200,
                     "description": "Returned data."
                     }
-                print(success(request, response))
+                if cc == True:
+                    printCC(success(request, response))
+                else: 
+                    print(success(request, response))
                 return request, response
             except Exception as e:
                 print(e)
@@ -134,15 +138,23 @@ def get(filepath: str, type: str) -> dict:
                 }
             print(error(request, response))
             return request, response
-def printCC(text, delay=0.05):
+def printCC(text, delay=0.05, colors=True):
+    buffer = ""
+    #TODO: add cc color support
     for char in text:
         print(char, end='', flush=True)
+        buffer = buffer + char
+        #if colorList in buffer:
+        #    
         time.sleep(delay)
     print()
 def error(request: dict, response: dict):
     return f"{c.red}Request: {c.end}{c.purple}{request['type']}: {request['path']} {c.end} -> {c.red}Response: {c.end}{c.purple}{response['code']}: {response['description']}{c.end}"
 def success(request: dict, response: dict): 
-    return f"{c.green}Request: {c.end}{c.blue}{request['type']}: {request['path']} {c.end} -> {c.green}Response: {c.end}{c.cyan}{response['code']}: {response['description']}{c.end}"
+    if request.get("type") == "newc":
+        return f"{c.green}Request: {c.end}{c.blue}{request['type']}: {request['account']} {c.end} -> {c.green}Response: {c.end}{c.cyan}{response['code']}: {response['description']}{c.end}"
+    elif request.get("type") == "file": 
+        return f"{c.green}Request: {c.end}{c.blue}{request['type']}: {request['path']} {c.end} -> {c.green}Response: {c.end}{c.cyan}{response['code']}: {response['description']}{c.end}"
 def highlightChar(target: list, text: str, color): 
     # TODO: Fix highlightChar()
     # TODO: Add docstring for highlightChar()
@@ -159,13 +171,13 @@ class Colors():
     """
     Generates Colors
     """
-    red = '\033[91m'
-    green = '\033[92m'
-    yellow = '\033[93m'
-    blue = '\033[94m'
+    red = "\033[91m"
+    green = "\033[92m"
+    yellow = "\033[93m"
+    blue = "\033[94m"
     purple = "\033[35m"
     cyan = "\033[36m"
-    end = '\033[0m' #orginal
+    end = "\033[0m" #orginal
 class Generator():
     def key(self, method: str, length: int, depth: int):
         if method == "private":
@@ -217,7 +229,7 @@ class Screen():
         if type == "line":
             print("\033[2K")
 
-config = {"debug": True}
+config = {"debug": False}
 c = Colors()
 colorList = [c.red, c.green, c.yellow, c.blue, c.purple, c.cyan, c.end]
 cy = Cryptor()
@@ -226,42 +238,47 @@ g = Generator()
 s = Screen()
 
 #* Tests
-reqG, resG = get("test.json", "json")
-reqS, resS = save("test.json", "json", resG["data"])
-private, public = g.keypair()
-pt = b"Plaintext"
-ct = cy.rsa.encrypt(public, pt)
-dt = cy.rsa.decrypt(private, ct)
+if config["debug"] == True:
+    private, public = g.keypair()
+    pt = b"Plaintext"
+    ct = cy.rsa.encrypt(public, pt)
+    dt = cy.rsa.decrypt(private, ct)
 
-printCC("Hello world! This is text.")
-
-while True:
-    s.clear("screen")
-    print("Menu")
-    print("[A] Encryption Tests")
-    print("[B] Get/Save Tests")
-    print("[C] Generator Tests")
-    print("[D] CC Test")
-    print("[E] End")
-    userInput = input("Choice: ")
-    if userInput.lower() == "a":
+    while True:
         s.clear("screen")
-        print(f"{c.yellow}{pt}{c.end}\n{"*" * 50}")
-        print(f"{c.cyan}{ct}{c.end}\n{"*" * 50}")
-        print(f"{c.yellow}{dt}{c.end}\n{"*" * 50}")
-        userInput = input("Press any key and Enter")
-    elif userInput.lower() == "b":
-        s.clear("screen")
-        print(reqG, resG)
-        print(reqS, resS)
-        userInput = input("Press any key and Enter")
-    elif userInput.lower() == "c":
-        print(f"{c.purple}{g.key("private", 2048, 1)}{c.end}")
-        userInput = input("Press any key and Enter")
-    elif userInput.lower() == "d":
-        s.clear("screen")
-        printCC("Hello world! This is text.")
-        userInput = input("Press any key and Enter")
-    elif userInput.lower() == "e":
-        s.clear("screen")
-        break
+        print("Menu")
+        print("[A] Encryption Tests")
+        print("[B] Get/Save Tests")
+        print("[C] Generator Tests")
+        print("[D] CC Test")
+        print("[E] End")
+        userInput = input("Choice: ")
+        if userInput.lower() == "a":
+            s.clear("screen")
+            print(f"{c.yellow}{pt}{c.end}\n{'*' * 50}")
+            print(f"{c.cyan}{ct}{c.end}\n{'*' * 50}")
+            print(f"{c.yellow}{dt}{c.end}\n{'*' * 50}")
+            userInput = input("Press any key and Enter")
+        elif userInput.lower() == "b":
+            s.clear("screen")
+            reqG, resG = get("test.json", "json", cc=True)
+            reqS, resS = save("test.json", "json", resG["data"], cc=True)
+            print(reqG, resG)
+            print(reqS, resS)
+            reqG2, resG2 = get("tet.json", "json", cc=True)
+            reqS2, resS2 = save("tet.json", "json", resG2["data"], cc=True)
+            print(reqG2, resG2)
+            print(reqS2, resS2)
+            userInput = input("Press Enter")
+        elif userInput.lower() == "c":
+            print(f"{c.purple}{g.key('private', 2048, 1)}{c.end}")
+            userInput = input("Press any key and Enter")
+        elif userInput.lower() == "d":
+            s.clear("screen")
+            printCC("Hello world! This is text.")
+            printCC(f"{c.blue}Hello World!{c.end}", 0.75)
+            userInput = input("Press any key and Enter")
+        elif userInput.lower() == "e":
+            s.clear("screen")
+            break
+ 
